@@ -35,7 +35,18 @@
 
     const _VS =
 
-      `void main() {
+      `
+      uniform float time;
+
+      void main() {
+
+
+
+        vec3 position = position;
+        float time = time;
+
+        position.z += sin(time) * 0.5 * position.x;
+
 
         vec3 scale = vec3(1.0, 1, 1);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position*scale, 1.0);
@@ -67,21 +78,25 @@
     var scene = new THREE.Scene();
 
 
-    var water_plane_geom = new THREE.PlaneGeometry(10, 10);
-    var water_plane_mat = new THREE.ShaderMaterial({
+    var water_box_geom = new THREE.BoxGeometry(10, 10, 10, 10,1,1);
+
+    var water_box_mat = new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0.0 },
         color: { value: new THREE.Color(0x0000ff) }
       },
       vertexShader: _VS,
       fragmentShader: _FS,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      wireframe: true
     });
+    water_box_mat.uniforms.time.value = 0.0;
 
-    var water_plane = new THREE.Mesh(water_plane_geom, water_plane_mat);
-    water_plane.position.set(0, 0, 0);
-    water_plane.rotation.x = Math.PI / 2;
-    scene.add(water_plane);
+
+    var water_box = new THREE.Mesh(water_box_geom, water_box_mat);
+    water_box.position.set(0, 0, 0);
+    water_box.rotation.x = Math.PI / 2;
+    scene.add(water_box);
 
 
     var renderer = new THREE.WebGLRenderer();
@@ -94,6 +109,18 @@
         miny: 0, maxy: guiParams.maxBallHeight + guiParams.ballRadius,
         minz: -5, maxz: 5
       });
+
+    
+
+
+    function onestep(){
+      water_box_mat.uniforms.time.value += 0.1;
+      TW.render()
+    }
+
+    let animation_interval = null;
+
+    animation_interval = setInterval(onestep, 1000/60);
 
 
   </script>
