@@ -45,7 +45,7 @@
         vec3 position = position;
         float time = time;
 
-        position.z += sin(time) * 0.5 * position.x;
+        position.z += sin(position.x) * 0.5 * sin(time);
 
 
         vec3 scale = vec3(1.0, 1, 1);
@@ -78,7 +78,7 @@
     var scene = new THREE.Scene();
 
 
-    var water_box_geom = new THREE.BoxGeometry(10, 10, 10, 10,1,1);
+    var water_box_geom = new THREE.BoxGeometry(10, 10, 5, 10,10,10);
 
     var water_box_mat = new THREE.ShaderMaterial({
       uniforms: {
@@ -88,7 +88,6 @@
       vertexShader: _VS,
       fragmentShader: _FS,
       side: THREE.DoubleSide,
-      wireframe: true
     });
     water_box_mat.uniforms.time.value = 0.0;
 
