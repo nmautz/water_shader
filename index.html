@@ -37,6 +37,7 @@
 
       `
       uniform float time;
+      varying vec3 worldPosition;
 
       void main() {
 
@@ -46,6 +47,8 @@
         float time = time;
 
         position.z += sin(position.x) * 0.5 * sin(time);
+        worldPosition = position;
+
 
 
         vec3 scale = vec3(1.0, 1, 1);
@@ -56,9 +59,19 @@
     
 
     const _FS = 
-      `void main(){
-          
-          gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+      `
+      varying vec3 worldPosition;
+      void main(){
+
+        vec2 frag_pos = gl_FragCoord.xy;
+
+
+          if(worldPosition.z > 0.0){
+            gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+          }else{
+            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+          }
+
   
       }`
     
