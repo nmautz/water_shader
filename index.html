@@ -33,6 +33,25 @@
   </ul>
   <script>
 
+    const _VS =
+
+      `void main() {
+
+        vec3 scale = vec3(1.0, 1, 1);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position*scale, 1.0);
+
+      }`
+
+    
+
+    const _FS = 
+      `void main(){
+          
+          gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+  
+      }`
+    
+
     // parameters of the scene and animation
 
     var guiParams = {
@@ -46,6 +65,23 @@
     var ballHeightDecay = 0.9;  // amount that height of bounce decays over time
 
     var scene = new THREE.Scene();
+
+
+    var water_plane_geom = new THREE.PlaneGeometry(10, 10);
+    var water_plane_mat = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0.0 },
+        color: { value: new THREE.Color(0x0000ff) }
+      },
+      vertexShader: _VS,
+      fragmentShader: _FS,
+      side: THREE.DoubleSide
+    });
+
+    var water_plane = new THREE.Mesh(water_plane_geom, water_plane_mat);
+    water_plane.position.set(0, 0, 0);
+    water_plane.rotation.x = Math.PI / 2;
+    scene.add(water_plane);
 
 
     var renderer = new THREE.WebGLRenderer();
