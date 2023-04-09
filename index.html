@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Bouncing Ball</title>
+  <style>
+    canvas {
+      width: 800px;
+      height: 500px
+    }
+  </style>
+
+  <script src="./js/three.js"></script>
+  <script src="./js/OrbitControls.js"></script>
+  <script src="./js/dat.gui.js"></script>
+  <script src="./js/tw.js"></script>
+
+</head>
+
+<body>
+  <h1>Bouncing Ball with Controls, Moving and Decaying</h1>
+  <ul>
+    <li>0: reset animation to initial state
+    </li>
+    <li>1: take one step
+    </li>
+    <li>g: "go" — start the animation <q>loop</q>
+    </li>
+    <li>SPC: stop the animation
+    </li>
+  </ul>
+  <script>
+
+    // parameters of the scene and animation
+
+    var guiParams = {
+      ballRadius: 1,
+      ballBouncePeriod: 3,  // time to bounce once, in arbitrary time units
+      maxBallHeight: 8,     // max y position of the center of the ball
+      deltaT: 0.035         // time between steps, in arbitrary time units
+    };
+
+    var ballVelocityX = 0.9;    // movement per frame in X direction
+    var ballHeightDecay = 0.9;  // amount that height of bounce decays over time
+
+    var scene = new THREE.Scene();
+
+
+    var renderer = new THREE.WebGLRenderer();
+
+    TW.mainInit(renderer, scene);
+
+    TW.cameraSetup(renderer, scene,
+      {
+        minx: -5, maxx: 5,
+        miny: 0, maxy: guiParams.maxBallHeight + guiParams.ballRadius,
+        minz: -5, maxz: 5
+      });
+
+
+  </script>
+
+</body>
+
+</html>
