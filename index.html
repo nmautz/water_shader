@@ -46,7 +46,7 @@
         vec3 position = position;
         float time = time;
 
-        position.z += sin(position.x) * 0.5 * sin(time);
+        position.z += sin(position.x + position.y + time) * 0.5;
         worldPosition = position;
 
 
@@ -105,6 +105,7 @@
       vertexShader: _VS,
       fragmentShader: _FS,
       side: THREE.DoubleSide,
+      wireframe: false
     });
     water_box_mat.uniforms.time.value = 0.0;
 
