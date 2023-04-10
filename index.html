@@ -71,30 +71,38 @@
       uniform float red_offset;
       uniform float green_offset;
       uniform float blue_offset;
+      uniform float max_blue;
+      uniform float max_green;
+      uniform float max_red;
+      uniform float min_blue;
+      uniform float min_green;
+      uniform float min_red;
+      uniform float height_offset;
       void main(){
 
         // scale z to be between 0 and 1
         float scaledZ = (worldPosition.z + 5.0) / 10.0;
+        scaledZ = scaledZ + height_offset;
 
         //set rgb to be blue at middle and white at top
         float red = red_offset - pow(scaledZ, red_power);
         float green = green_offset - pow(scaledZ, green_power);
         float blue = blue_offset - pow(scaledZ, blue_power);
 
-        if (blue < 0.0) {
-          blue = 0.0;
-        }else if (blue > 1.0) {
-          blue = 1.0;
+        if (blue < min_blue) {
+          blue = min_blue;
+        }else if (blue > max_blue) {
+          blue = max_blue;
         }
-        if (green < 0.0) {
-          green = 0.0;
-        }else if (green > 1.0) {
-          green = 1.0;
+        if (green < min_green) {
+          green = min_green;
+        }else if (green > max_green) {
+          green = max_green;
         }
-        if (red < 0.0) {
-          red = 0.0;
-        }else if (red > 1.0) {
-          red = 1.0;
+        if (red < min_red) {
+          red = min_red;
+        }else if (red > max_red) {
+          red = max_red;
         }
 
 
@@ -116,7 +124,14 @@
       blue_power: 0.6,
       red_offset: 0.6,
       green_offset: 0.6,
-      blue_offset: 1.3
+      blue_offset: 1.3,
+      max_blue: 1.0,
+      max_green: 1.0,
+      max_red: 1.0,
+      min_blue: 0.0,
+      min_green: 0.0,
+      min_red: 0.0,
+      height_offset: 0.0
 
     };
 
@@ -136,7 +151,14 @@
         blue_power: { value: guiParams.blue_power},
         red_offset: { value: guiParams.red_offset },
         green_offset: { value: guiParams.green_offset },
-        blue_offset: { value: guiParams.blue_offset }
+        blue_offset: { value: guiParams.blue_offset },
+        max_blue: { value: guiParams.max_blue },
+        max_green: { value: guiParams.max_green },
+        max_red: { value: guiParams.max_red },
+        min_blue: { value: guiParams.min_blue },
+        min_green: { value: guiParams.min_green },
+        min_red: { value: guiParams.min_red },
+        height_offset: { value: guiParams.height_offset }
       },
       vertexShader: _VS,
       fragmentShader: _FS,
@@ -220,6 +242,40 @@
       TW.render();
     });
 
+    gui.add(guiParams, 'max_blue', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.max_blue.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'max_green', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.max_green.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'max_red', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.max_red.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'min_blue', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.min_blue.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'min_green', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.min_green.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'min_red', 0.0, 1.0).onChange(function(value){
+      water_box_mat.uniforms.min_red.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'height_offset', -4.0, 4.0).onChange(function(value){
+      water_box_mat.uniforms.height_offset.value = value;
+      TW.render();
+    });
 
     
 
