@@ -49,6 +49,8 @@
         float time = time;
         float offset = rand(position.xy);
 
+
+
         position.z += (sin(0.25 * pi * position.x + time + offset) + sin(0.33 * pi * position.y + time + offset) + sin(0.5 * pi * position.x + time + offset) )* 0.4 + offset * 0.2;
         worldPosition = position;
 
@@ -139,7 +141,7 @@
     var scene = new THREE.Scene();
 
 
-    var water_box_geom = new THREE.BoxGeometry(50, 50, 1, 100,100,1);
+    var water_box_geom = new THREE.BoxGeometry(200, 200, 1, 400,400,1);
 
     var water_box_mat = new THREE.ShaderMaterial({
       uniforms: {
@@ -175,7 +177,7 @@
 
     var water_box_2 = new THREE.Mesh(water_box_geom, water_box_mat);
     water_box_2.rotation.x = Math.PI / 2;
-    water_box_2.rotation.z = Math.PI / 2;
+    water_box_2.rotation.z = Math.PI / 4;
     scene.add(water_box_2);
 
 
@@ -184,7 +186,7 @@
     //camera with orbit controls
     var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.far = 1000;
-    camera.position.set(0, 30, 30);
+    camera.position.set(0, 50, 50);
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.update();
     renderer.render(scene, camera);
@@ -285,6 +287,7 @@
       water_box_mat.uniforms.height_offset.value = value;
       renderer.render(scene, camera);
     });
+
 
     
 
