@@ -65,16 +65,18 @@
       `
       varying vec3 worldPosition;
       uniform float time;
+      uniform float red_power;
+      uniform float green_power;
+      uniform float blue_power;
       void main(){
 
         // scale z to be between 0 and 1
         float scaledZ = (worldPosition.z + 5.0) / 10.0;
 
-
         //set rgb to be blue at middle and white at top
-        float red = 0.6 - pow(scaledZ, 1.5);
-        float green = 0.6 - pow(scaledZ, 2.4);
-        float blue = 1.3 - scaledZ;
+        float red = 0.6 - pow(scaledZ, red_power);
+        float green = 0.6 - pow(scaledZ, green_power);
+        float blue = 1.3 - pow(scaledZ, blue_power);
 
         if (blue < 0.0) {
           blue = 0.0;
@@ -106,6 +108,9 @@
 
     var guiParams = {
       time_increment: 0.1,
+      red_power: 1.5,
+      green_power: 2.4,
+      blue_power: 0.6
 
     };
 
@@ -118,7 +123,11 @@
     var water_box_mat = new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0.0 },
-        color: { value: new THREE.Color(0x0000ff) }
+        color: { value: new THREE.Color(0x0000ff),
+        },
+        red_power: { value: guiParams.red_power },
+        green_power: { value: guiParams.green_power },
+        blue_power: { value: guiParams.blue_power}
       },
       vertexShader: _VS,
       fragmentShader: _FS,
@@ -174,6 +183,18 @@
 
     let gui = new dat.GUI();
     gui.add(guiParams, 'time_increment', 0.0, 1.0);
+    gui.add(guiParams, 'red_power', 0.0, 3.0).onChange(function(value){
+      water_box_mat.uniforms.red_power.value = value;
+      TW.render();
+    });
+    gui.add(guiParams, 'green_power', 0.0, 3.0).onChange(function(value){
+      water_box_mat.uniforms.green_power.value = value;
+      TW.render();
+    });
+    gui.add(guiParams, 'blue_power', 0.0, 3.0).onChange(function(value){
+      water_box_mat.uniforms.blue_power.value = value;
+      TW.render();
+    });
 
     
 
