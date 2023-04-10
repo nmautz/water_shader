@@ -44,12 +44,12 @@
       void main() {
 
 
-
+        const float pi = 3.1415926535897932384626433832795;
         vec3 position = position;
         float time = time;
         float offset = rand(position.xy);
 
-        position.z += (sin(position.x + time) - sin(position.y + time)) * 0.5 + (offset*0.8);
+        position.z += (sin(0.25 * pi * position.x + time + offset) + sin(0.33 * pi * position.y + time + offset) + sin(0.5 * pi * position.x + time + offset) )* 0.4 + offset * 0.2;
         worldPosition = position;
 
 
