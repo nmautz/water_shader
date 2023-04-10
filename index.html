@@ -176,21 +176,25 @@
 
     var renderer = new THREE.WebGLRenderer();
 
-    TW.mainInit(renderer, scene);
+    //camera with orbit controls
+    var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.far = 1000;
+    camera.position.set(0, 30, 30);
+    let controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.update();
+    renderer.render(scene, camera);
 
-    TW.cameraSetup(renderer, scene,
-      {
-        minx: -5, maxx: 5,
-        miny: 0, maxy: 11,
-        minz: -5, maxz: 5
-      });
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+
+
 
     
 
 
     function onestep(){
       water_box_mat.uniforms.time.value += guiParams.time_increment;
-      TW.render()
+      renderer.render(scene, camera)
     }
 
     let animation_interval = null;
@@ -216,65 +220,65 @@
     gui.add(guiParams, 'time_increment', 0.0, 1.0);
     gui.add(guiParams, 'red_power', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.red_power.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
     gui.add(guiParams, 'green_power', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.green_power.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
     gui.add(guiParams, 'blue_power', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.blue_power.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'red_offset', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.red_offset.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'green_offset', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.green_offset.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'blue_offset', 0.0, 3).onChange(function(value){
       water_box_mat.uniforms.blue_offset.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'max_blue', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.max_blue.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'max_green', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.max_green.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'max_red', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.max_red.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'min_blue', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.min_blue.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'min_green', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.min_green.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'min_red', 0.0, 1.0).onChange(function(value){
       water_box_mat.uniforms.min_red.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     gui.add(guiParams, 'height_offset', -4.0, 4.0).onChange(function(value){
       water_box_mat.uniforms.height_offset.value = value;
-      TW.render();
+      renderer.render(scene, camera);
     });
 
     

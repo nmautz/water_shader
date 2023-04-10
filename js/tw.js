@@ -1854,7 +1854,7 @@ TW.textureMaterial = function (url) {
             }
             numTexturesToLoad--;
             if (numTexturesToLoad == 0)
-                TW.render();
+                renderer.render(scene, camera);
         });
     texture.wrapS = THREE.MirroredRepeatWrapping;
     texture.wrapT = THREE.MirroredRepeatWrapping;

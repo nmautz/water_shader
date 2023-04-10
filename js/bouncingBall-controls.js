@@ -74,7 +74,7 @@ function setBallPosition(time) {
 function firstState() {
     resetAnimationState();
     animationState.ballHeight = setBallPosition(animationState.time);
-    TW.render();
+    renderer.render(scene, camera);
 }
 
 function updateState() {
@@ -88,7 +88,7 @@ function updateState() {
                 
 function oneStep() {
     updateState();
-    TW.render();
+    renderer.render(scene, camera);
 }
     
 
@@ -114,6 +114,6 @@ TW.setKeyboardCallback(" ",stopAnimation,"stop animation");
 
 var gui = new dat.GUI();
 gui.add(guiParams,"ballRadius",0.1,3)
-    .onChange(function(){ makeScene(); TW.render(); });
+    .onChange(function(){ makeScene(); renderer.render(scene, camera); });
 gui.add(guiParams,"deltaT",0.001,0.999).step(0.001);
 gui.add(guiParams,"ballBouncePeriod",1,30).step(1);
