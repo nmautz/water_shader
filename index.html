@@ -68,15 +68,18 @@
       uniform float red_power;
       uniform float green_power;
       uniform float blue_power;
+      uniform float red_offset;
+      uniform float green_offset;
+      uniform float blue_offset;
       void main(){
 
         // scale z to be between 0 and 1
         float scaledZ = (worldPosition.z + 5.0) / 10.0;
 
         //set rgb to be blue at middle and white at top
-        float red = 0.6 - pow(scaledZ, red_power);
-        float green = 0.6 - pow(scaledZ, green_power);
-        float blue = 1.3 - pow(scaledZ, blue_power);
+        float red = red_offset - pow(scaledZ, red_power);
+        float green = green_offset - pow(scaledZ, green_power);
+        float blue = blue_offset - pow(scaledZ, blue_power);
 
         if (blue < 0.0) {
           blue = 0.0;
@@ -110,7 +113,10 @@
       time_increment: 0.1,
       red_power: 1.5,
       green_power: 2.4,
-      blue_power: 0.6
+      blue_power: 0.6,
+      red_offset: 0.6,
+      green_offset: 0.6,
+      blue_offset: 1.3
 
     };
 
@@ -127,7 +133,10 @@
         },
         red_power: { value: guiParams.red_power },
         green_power: { value: guiParams.green_power },
-        blue_power: { value: guiParams.blue_power}
+        blue_power: { value: guiParams.blue_power},
+        red_offset: { value: guiParams.red_offset },
+        green_offset: { value: guiParams.green_offset },
+        blue_offset: { value: guiParams.blue_offset }
       },
       vertexShader: _VS,
       fragmentShader: _FS,
@@ -195,6 +204,22 @@
       water_box_mat.uniforms.blue_power.value = value;
       TW.render();
     });
+
+    gui.add(guiParams, 'red_offset', 0.0, 3.0).onChange(function(value){
+      water_box_mat.uniforms.red_offset.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'green_offset', 0.0, 3.0).onChange(function(value){
+      water_box_mat.uniforms.green_offset.value = value;
+      TW.render();
+    });
+
+    gui.add(guiParams, 'blue_offset', 0.0, 3).onChange(function(value){
+      water_box_mat.uniforms.blue_offset.value = value;
+      TW.render();
+    });
+
 
     
 
