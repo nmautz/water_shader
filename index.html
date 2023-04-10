@@ -36,6 +36,10 @@
     const _VS =
 
       `
+
+      float rand(vec2 co){
+        return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+      }
       uniform float time;
       varying vec3 worldPosition;
 
@@ -45,13 +49,14 @@
 
         vec3 position = position;
         float time = time;
+        float offset = rand(position.xy);
 
-        position.z += (sin(position.x + time) - sin(position.y + time)) * 0.5;
+        position.z += (sin(position.x + time) - sin(position.y + time)) * 0.5 + (offset*0.8);
         worldPosition = position;
 
 
 
-        vec3 scale = vec3(1.0, 1, 1);
+        vec3 scale = vec3(1, 1, 1);
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position*scale, 1.0);
 
       }`
