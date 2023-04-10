@@ -139,7 +139,7 @@
     var scene = new THREE.Scene();
 
 
-    var water_box_geom = new THREE.BoxGeometry(30, 30, 1, 100,100,1);
+    var water_box_geom = new THREE.BoxGeometry(50, 50, 1, 100,100,1);
 
     var water_box_mat = new THREE.ShaderMaterial({
       uniforms: {
@@ -172,6 +172,11 @@
     water_box.position.set(0, 0, 0);
     water_box.rotation.x = Math.PI / 2;
     scene.add(water_box);
+
+    var water_box_2 = new THREE.Mesh(water_box_geom, water_box_mat);
+    water_box_2.rotation.x = Math.PI / 2;
+    water_box_2.rotation.z = Math.PI / 2;
+    scene.add(water_box_2);
 
 
     var renderer = new THREE.WebGLRenderer();
