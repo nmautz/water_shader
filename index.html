@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  <title>Bouncing Ball</title>
+  <title>Water demo</title>
   <style>
     canvas {
       width: 800px;
@@ -20,15 +20,13 @@
 </head>
 
 <body>
-  <h1>Bouncing Ball with Controls, Moving and Decaying</h1>
+  <h1>Water Shader Demo</h1>
   <ul>
-    <li>0: reset animation to initial state
+    <li>Space: start/stop animation
     </li>
     <li>1: take one step
     </li>
-    <li>g: "go" — start the animation <q>loop</q>
-    </li>
-    <li>SPC: stop the animation
+    <li>0: reset time
     </li>
   </ul>
   <script>
@@ -107,14 +105,10 @@
     // parameters of the scene and animation
 
     var guiParams = {
-      ballRadius: 1,
-      ballBouncePeriod: 3,  // time to bounce once, in arbitrary time units
-      maxBallHeight: 8,     // max y position of the center of the ball
-      deltaT: 0.035         // time between steps, in arbitrary time units
+      time_increment: 0.1,
+
     };
 
-    var ballVelocityX = 0.9;    // movement per frame in X direction
-    var ballHeightDecay = 0.9;  // amount that height of bounce decays over time
 
     var scene = new THREE.Scene();
 
@@ -147,7 +141,7 @@
     TW.cameraSetup(renderer, scene,
       {
         minx: -5, maxx: 5,
-        miny: 0, maxy: guiParams.maxBallHeight + guiParams.ballRadius,
+        miny: 0, maxy: 11,
         minz: -5, maxz: 5
       });
 
@@ -155,13 +149,33 @@
 
 
     function onestep(){
-      water_box_mat.uniforms.time.value += 0.1;
+      water_box_mat.uniforms.time.value += guiParams.time_increment;
       TW.render()
     }
 
     let animation_interval = null;
 
     animation_interval = setInterval(onestep, 1000/60);
+
+    document.addEventListener('keydown', function (event) {
+      if (event.code == 'Space') {
+        if (animation_interval) {
+          clearInterval(animation_interval);
+          animation_interval = null;
+        } else {
+          animation_interval = setInterval(onestep, 1000/60);
+        }
+      } else if (event.code == 'Digit0') {
+        water_box_mat.uniforms.time.value = 0.0;
+      } else if (event.code == 'Digit1') {
+        onestep();
+      }
+    });
+
+    let gui = new dat.GUI();
+    gui.add(guiParams, 'time_increment', 0.0, 1.0);
+
+    
 
 
   </script>
