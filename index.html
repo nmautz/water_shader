@@ -198,9 +198,11 @@
 
     
 
-
+    var stop_time = false;
     function onestep(){
-      water_box_mat.uniforms.time.value += guiParams.time_increment;
+      if(!stop_time){
+        water_box_mat.uniforms.time.value += guiParams.time_increment;
+      }
       renderer.render(scene, camera)
     }
 
@@ -210,15 +212,11 @@
 
     document.addEventListener('keydown', function (event) {
       if (event.code == 'Space') {
-        if (animation_interval) {
-          clearInterval(animation_interval);
-          animation_interval = null;
-        } else {
-          animation_interval = setInterval(onestep, 1000/60);
-        }
+        stop_time = !stop_time;
       } else if (event.code == 'Digit0') {
         water_box_mat.uniforms.time.value = 0.0;
       } else if (event.code == 'Digit1') {
+        water_box_mat.uniforms.time.value += guiParams.time_increment;
         onestep();
       }
     });
