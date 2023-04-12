@@ -28,6 +28,7 @@
     </li>
     <li>0: reset time
     </li>
+    <li>R: Reset all params</li>
   </ul>
   <script>
 
@@ -137,6 +138,8 @@
 
     };
 
+    var defaultGuiParams = Object.assign({}, guiParams);
+
 
     var scene = new THREE.Scene();
 
@@ -202,6 +205,7 @@
     function onestep(){
       if(!stop_time){
         water_box_mat.uniforms.time.value += guiParams.time_increment;
+        console.log(guiParams.time_increment);
       }
       renderer.render(scene, camera)
     }
@@ -218,11 +222,31 @@
       } else if (event.code == 'Digit1') {
         water_box_mat.uniforms.time.value += guiParams.time_increment;
         onestep();
+      }else if(event.code == 'KeyR'){
+        water_box_mat.uniforms.time.value = 0.0;
+        guiParams = Object.assign({}, defaultGuiParams);
+        water_box_mat.uniforms.red_power.value = guiParams.red_power;
+        water_box_mat.uniforms.green_power.value = guiParams.green_power;
+        water_box_mat.uniforms.blue_power.value = guiParams.blue_power;
+        water_box_mat.uniforms.red_offset.value = guiParams.red_offset;
+        water_box_mat.uniforms.green_offset.value = guiParams.green_offset;
+        water_box_mat.uniforms.blue_offset.value = guiParams.blue_offset;
+        water_box_mat.uniforms.max_blue.value = guiParams.max_blue;
+        water_box_mat.uniforms.max_green.value = guiParams.max_green;
+        water_box_mat.uniforms.max_red.value = guiParams.max_red;
+        water_box_mat.uniforms.min_blue.value = guiParams.min_blue;
+        water_box_mat.uniforms.min_green.value = guiParams.min_green;
+        water_box_mat.uniforms.min_red.value = guiParams.min_red;
+        water_box_mat.uniforms.height_offset.value = guiParams.height_offset;
+        renderer.render(scene, camera);
       }
     });
 
     let gui = new dat.GUI();
-    gui.add(guiParams, 'time_increment', 0.0, 1.0);
+    gui.add(guiParams, 'time_increment', 0.0, 1.0).onChange(function(value){
+      guiParams.time_increment = value;
+      console.log(value);
+    });
     gui.add(guiParams, 'red_power', 0.0, 3.0).onChange(function(value){
       water_box_mat.uniforms.red_power.value = value;
       renderer.render(scene, camera);
